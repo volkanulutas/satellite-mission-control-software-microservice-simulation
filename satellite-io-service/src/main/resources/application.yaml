@@ -1,6 +1,17 @@
 spring:
   application:
     name: satellite-io-service
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/satellite-io-db
+    username: sa
+    password: 123
+    driverClassName: org.postgresql.Driver
 server:
   port: 8091
 eureka:
