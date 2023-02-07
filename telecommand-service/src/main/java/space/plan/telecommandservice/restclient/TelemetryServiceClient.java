@@ -1,4 +1,4 @@
-package space.plan.telemetryservice.restclient;
+package space.plan.telecommandservice.restclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

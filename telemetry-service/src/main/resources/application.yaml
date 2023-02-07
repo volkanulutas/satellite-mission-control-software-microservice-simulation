@@ -9,3 +9,11 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+app:
+  # Message Broker (RabbitMQ) Configuration.
+  # Note: RabbitMQ management console: http://localhost:15672/#/
+  rabbitMqPort: 5672 # used port for communication between AMQP messages.
+  # Note for 'rabbitMqHost': no "http://" at the beginning, only IP address.
+  rabbitMqHost: localhost # IP of the machine where the RabbitMQ is installed.
+  rabbitMqUser: guest # default user for RabbitMQ.
+  rabbitMqPassword: guest # default password for RabbitMQ.
