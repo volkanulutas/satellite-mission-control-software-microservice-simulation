@@ -1,0 +1,11 @@
+server:
+  port: 8092
+spring:
+  application:
+    name: telemetry-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true

@@ -1,0 +1,5 @@
+include 'api-gateway'
+include 'service-discovery'
+include 'satellite-io-service'
+include 'telemetry-service'
+include 'telecommand-service'
