@@ -1,4 +1,4 @@
-package space.plan.telemetryservice.config.rabbitmq;
+package space.plan.satelliteioservice.config.rabbitmq;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import space.plan.telemetryservice.config.appconfig.AppProperty;
+import space.plan.satelliteioservice.config.appconfig.AppProperty;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -17,6 +17,8 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class RabbitMqManager {
     public static final String RK_TELEMETRY_MESSAGE = "rk_satelliteioservice_beacon_message_telemetryservice";
+
+
     private static final boolean AUTO_ACK = true;
 
     private static final Logger log = LoggerFactory.getLogger(RabbitMqManager.class);

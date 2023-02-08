@@ -1,4 +1,4 @@
-package space.plan.telemetryservice.data.dto;
+package space.plan.satelliteioservice.data.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

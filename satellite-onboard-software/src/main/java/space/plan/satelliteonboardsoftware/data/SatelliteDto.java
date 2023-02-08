@@ -1,9 +1,7 @@
-package space.plan.telemetryservice.data.dto;
+package space.plan.satelliteonboardsoftware.data;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Data
 public class SatelliteDto {
     private String name;

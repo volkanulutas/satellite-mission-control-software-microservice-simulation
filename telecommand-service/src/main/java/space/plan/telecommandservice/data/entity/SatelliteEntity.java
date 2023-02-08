@@ -1,6 +1,11 @@
-package space.plan.telemetryservice.data.entity;
+package space.plan.telecommandservice.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="TELEMETRY")
-public class TelemetryEntity {
+@Table(name="SATELLITE")
+public class SatelliteEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -22,13 +27,4 @@ public class TelemetryEntity {
 
     @Column
     private String definition;
-
-    @Column
-    private long generationTimestamp;
-
-    @Column
-    private long receivedTimestamp;
-
-    @ManyToOne
-    private SatelliteEntity satellite;
 }

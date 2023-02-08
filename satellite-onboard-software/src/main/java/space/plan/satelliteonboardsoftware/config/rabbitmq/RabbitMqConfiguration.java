@@ -1,4 +1,4 @@
-package space.plan.telemetryservice.config.rabbitmq;
+package space.plan.satelliteonboardsoftware.config.rabbitmq;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,9 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMqConfiguration {
     public static final String DEFAULT_EXCHANGE = "plans";
 
-    public static final String RK_DATA = "data";
+    public static final String RK_BEACON_MESSAGE = "rk_satelliteonboard_beacon_message_satelliteioservice";
 
-    public static final String RK_TELEMETRY_MESSAGE = "rk_satelliteioservice_beacon_message_telemetryservice";
 
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
@@ -26,11 +25,7 @@ public class RabbitMqConfiguration {
         return new Jackson2JsonMessageConverter();
     }
 
-    public String getDataQueueName() {
-        return RK_DATA;
-    }
-
-    public String getTelemetryQueueName() {
-        return RK_TELEMETRY_MESSAGE;
+    public String getBeaconMessageQueueName() {
+        return RK_BEACON_MESSAGE;
     }
 }
