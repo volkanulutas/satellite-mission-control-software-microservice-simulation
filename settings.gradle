@@ -1,5 +1,5 @@
-include 'api-gateway'
 include 'service-discovery'
+include 'api-gateway'
 include 'satellite-io-service'
 include 'telemetry-service'
 include 'telecommand-service'
