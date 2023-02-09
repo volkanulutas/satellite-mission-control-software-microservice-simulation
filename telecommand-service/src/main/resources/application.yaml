@@ -1,18 +1,17 @@
+server:
+  port: 8093
 spring:
   application:
     name: telecommand-service
   jpa:
-    database: POSTGRESQL
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
+    database: POSTGRESQL
+    show-sql: false
   datasource:
-    platform: postgres
     url: jdbc:postgresql://localhost:5432/telecommand-db
-    username: sa
-    password: 123
-server:
-  port: 8093
+    username: postgres
+    password: 123456
 eureka:
   client:
     serviceUrl:

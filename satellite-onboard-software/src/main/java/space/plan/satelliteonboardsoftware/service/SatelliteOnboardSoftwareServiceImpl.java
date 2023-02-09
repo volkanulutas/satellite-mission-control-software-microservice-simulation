@@ -1,23 +1,21 @@
 package space.plan.satelliteonboardsoftware.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.SerializationUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import space.plan.satelliteonboardsoftware.config.rabbitmq.RabbitMqConfiguration;
 import space.plan.satelliteonboardsoftware.data.BeaconMessageDto;
-import space.plan.satelliteonboardsoftware.data.SatelliteDto;
 import space.plan.satelliteonboardsoftware.util.Constant;
 import space.plan.satelliteonboardsoftware.util.constant.BeaconMessageConstants;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
+@EnableScheduling
 @Service
 public class SatelliteOnboardSoftwareServiceImpl implements SatelliteOnboardSoftwareService {
     private final RabbitTemplate rabbitTemplate;
@@ -30,13 +28,22 @@ public class SatelliteOnboardSoftwareServiceImpl implements SatelliteOnboardSoft
     @Scheduled(fixedRate = Constant.BEACON_MESSAGE_SEND_PERIOD)
     public void sendPeriodicTelemetryData() {
         BeaconMessageDto beaconMessage = generateBeaconMessageRandomly();
-        byte[] encodeBeaconMessage = encodeBeaconMessage(beaconMessage);
-        rabbitTemplate.convertAndSend(RabbitMqConfiguration.DEFAULT_EXCHANGE, RabbitMqConfiguration.RK_BEACON_MESSAGE, encodeBeaconMessage);
+        byte[] encodedData = encodeBeaconMessage(beaconMessage);
+        System.err.println("data: " + encodedData);
+        rabbitTemplate.convertAndSend(RabbitMqConfiguration.DEFAULT_EXCHANGE, RabbitMqConfiguration.RK_BEACON_MESSAGE, encodedData);
+        log.info("Beacon telemetry is sent! ", beaconMessage.toString());
     }
 
     public byte[] encodeBeaconMessage(BeaconMessageDto beaconMessage) {
-        byte[] serialize = SerializationUtils.serialize(beaconMessage);
-        return Base64.getEncoder().encode(serialize);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String data = objectMapper.writeValueAsString(beaconMessage);
+            org.apache.tomcat.util.codec.binary.Base64 base64 = new org.apache.tomcat.util.codec.binary.Base64();
+            return base64.encode(data.getBytes());
+        } catch (Exception ex) {
+            log.error("Encoding error is occurred. Detail: ", ex);
+        }
+        return null;
     }
 
     private BeaconMessageDto generateBeaconMessageRandomly() {

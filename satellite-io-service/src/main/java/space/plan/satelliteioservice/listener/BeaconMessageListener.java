@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.Delivery;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import space.plan.satelliteioservice.config.rabbitmq.RabbitMqConfiguration;
@@ -14,9 +15,6 @@ import space.plan.satelliteioservice.data.dto.BeaconMessageDto;
 import space.plan.satelliteioservice.service.SatelliteIoService;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
 @Component
@@ -42,8 +40,12 @@ public class BeaconMessageListener implements DeliverCallback {
 
     @Override
     public void handle(String consumerTag, Delivery delivery) throws IOException {
-        String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-        byte[] encodedBeaconMessage = new ObjectMapper().readValue(message, new TypeReference<>() {});
-        satelliteIoService.processRawTelemetry(encodedBeaconMessage);
+        byte[] body = delivery.getBody();
+        System.out.println("delivery: " + body);
+        Base64 base64 = new Base64();
+        byte[] decode = base64.decode(body);
+        String message = new String(decode);
+        BeaconMessageDto messageDto = new ObjectMapper().readValue(message, new TypeReference<>() {});
+        System.out.println("");
     }
 }

@@ -11,6 +11,7 @@ import space.plan.satelliteioservice.data.dto.SatelliteDto;
 import space.plan.satelliteioservice.data.entity.RawTelemetryEntity;
 import space.plan.satelliteioservice.repository.RawTelemetryRepository;
 
+import java.util.Base64;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -45,6 +46,9 @@ public class SatelliteIoServiceImpl implements SatelliteIoService {
 
     @Override
     public BeaconMessageDto decode(byte[] encodedBeaconMessage) {
+        byte[] decode = Base64.getDecoder().decode(encodedBeaconMessage);
+        String decodedString = new String(decode);
+
         return ((BeaconMessageDto) SerializationUtils.deserialize(encodedBeaconMessage));
     }
 
